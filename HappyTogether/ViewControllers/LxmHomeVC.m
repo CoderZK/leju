@@ -12,7 +12,7 @@
 #import "LxmYouHuiVC.h"
 #import "RegisterViewController.h"
 #import "LxmMineVC.h"
-
+#import "RegisterViewController.h"
 
 @interface LxmHomeVC ()<UIScrollViewDelegate,LxmTitleViewDelegate>
 {
@@ -66,13 +66,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isfirst"] integerValue] == 1)
-    {
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"str1"];
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"str2"];
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"str3"];
+    if (![zkSignleTool shareTool].isLogin) {
+        RegisterViewController * vc =[[RegisterViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self presentViewController:vc  animated:YES completion:nil];
     }
-    [_juHuiVC.tableView reloadData];
 }
 - (void)jumpToUserInfo{
     

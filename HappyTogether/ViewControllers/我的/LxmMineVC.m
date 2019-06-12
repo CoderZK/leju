@@ -94,7 +94,7 @@
     
     
     UILabel * nameLab = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headerImgBtn.frame)+5, ScreenW, 20)];
-    nameLab.text = @"栗子";
+    nameLab.text = @"";
     nameLab.shadowColor = [UIColor darkGrayColor];
     nameLab.shadowOffset = CGSizeMake(0, 1);
     nameLab.font = [UIFont systemFontOfSize:14];
@@ -104,7 +104,7 @@
     _nameLabel = nameLab;
     
     UILabel * phoneLab = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headerImgBtn.frame)+5+20, ScreenW, 20)];
-    phoneLab.text = @"15836861251";
+    phoneLab.text = [zkSignleTool shareTool].session_uid;
     phoneLab.shadowColor = [UIColor darkGrayColor];
     phoneLab.shadowOffset = CGSizeMake(0, 1);
     phoneLab.font = [UIFont systemFontOfSize:14];

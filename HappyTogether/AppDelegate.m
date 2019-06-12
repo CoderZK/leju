@@ -22,8 +22,8 @@
     self.window=[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor=[UIColor whiteColor];
     BaseNavigationController *nav=[[BaseNavigationController alloc] initWithRootViewController:[[LxmHomeVC alloc] init]];
-//    self.window.rootViewController=nav;
-    self.window.rootViewController = [[RegisterViewController alloc] init];
+    self.window.rootViewController=nav;
+//    self.window.rootViewController = [[RegisterViewController alloc] init];
     [self.window makeKeyAndVisible];
     
     [self configureAPIKey];

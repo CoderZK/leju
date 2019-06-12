@@ -13,7 +13,7 @@
 @interface RegisterViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *TV;
 
-@property (nonatomic,strong)UITextField *textField1,*textField2, *textField3, *textField4;
+@property (nonatomic,strong)UITextField *textField1, *textField3, *textField4;
 @property (nonatomic,strong)UIButton *btn4;
 @end
 
@@ -136,11 +136,11 @@
         [view3 addSubview:_textField3];
         
         _textField1.font = [UIFont systemFontOfSize:15];
-        _textField2.font = [UIFont systemFontOfSize:15];
+//        _textField2.font = [UIFont systemFontOfSize:15];
         _textField3.font = [UIFont systemFontOfSize:15];
         _textField4.font = [UIFont systemFontOfSize:15];
-        _textField1.textColor = _textField2.textColor = _textField3.textColor = _textField4.textColor = CharacterDarkColor;
-        _textField2.secureTextEntry = _textField3.secureTextEntry = YES;
+        _textField1.textColor =  _textField3.textColor = _textField4.textColor = CharacterDarkColor;
+        _textField3.secureTextEntry = YES;
         
         UIButton *btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
         btn3.frame = CGRectMake(0, 164, ScreenW, 44);
@@ -180,12 +180,12 @@
         [btn1 addTarget:self action:@selector(changIsKanjian:) forControlEvents:UIControlEventTouchUpInside];
         btn1.tag = 400;
         [view2 addSubview:btn1];
-        _textField2 = [[UITextField alloc] initWithFrame:CGRectMake(44, 0, ScreenW-88, 44)];
-        _textField2.placeholder = @"请输入您的密码";
+//        _textField2 = [[UITextField alloc] initWithFrame:CGRectMake(44, 0, ScreenW-88, 44)];
+//        _textField2.placeholder = @"请输入您的密码";
 //        [_textField2 setValue:CharacterGrayColor forKeyPath:@"_placeholderLabel.textColor"];
-        _textField2.font = [UIFont systemFontOfSize:15];
-        _textField2.secureTextEntry = YES;
-        [view2 addSubview:_textField2];
+//        _textField2.font = [UIFont systemFontOfSize:15];
+//        _textField2.secureTextEntry = YES;
+//        [view2 addSubview:_textField2];
         //忘记密码
         UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
 //        CGSize btn2Size = [@"忘记密码？" getSizeOfStringWihtFont:12 addMaxSize:CGSizeMake(99, 99)];
@@ -215,14 +215,14 @@
     sender.selected = !sender.selected;
     if (sender.selected) {
         if (sender.tag == 400) {
-            _textField2.secureTextEntry = NO;
+//            _textField2.secureTextEntry = NO;
         }else{
             _textField3.secureTextEntry = NO;
         }
         [sender setImage:[UIImage imageNamed:@"ico_kejian_1"] forState:UIControlStateNormal];
     }else{
         if (sender.tag == 400) {
-            _textField2.secureTextEntry = YES;
+//            _textField2.secureTextEntry = YES;
         }else{
             _textField3.secureTextEntry = YES;
         }
@@ -232,14 +232,97 @@
 
 //注册下一步
 - (void)nextStep{
+    
+   
+    
+    
+    if (self.textField1.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入用户名"];
+        return;
+    }
+    if (self.textField3.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入密码"];
+        return;
+    }
+    
+    [self loginOrRegist];
+    
+    
 //    if (_textField1.text.length < 1 || _textField2.text.length < 1 || _textField3.text.length < 1) {
 //        [SVProgressHUD showErrorWithStatus:@"账号或密码为空"];
 //    }else if (![_textField2.text isEqualToString:_textField3.text]) {
 //        [SVProgressHUD showErrorWithStatus:@"两次密码输入不同"];
 //    }else{
-        [self canRegister];
+//        [self canRegister];
 //    }
 }
+
+- (void)loginOrRegist {
+    
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        NSString * sql = [NSString stringWithFormat:@"select *from 'kk_users' where name = %@ ",self.textField1.text];
+        
+        FMResultSet * result = [db executeQuery:sql];
+        BOOL isOK = NO;
+        while ([result next]) {
+            
+            NSLog(@"%@\n",@"成功!!!!!");
+            
+            
+            NSString * name = [result stringForColumn:@"name"];
+            NSString * passWord = [result stringForColumn:@"passWord"];
+            if ([name isEqualToString:self.textField1.text]) {
+                isOK = YES;
+                if ([passWord isEqualToString:self.textField3.text]) {
+                    [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+                    [zkSignleTool shareTool].isLogin = YES;
+                    [zkSignleTool shareTool].session_uid = self.textField1.text;
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    });
+                    
+                    break;
+                }else {
+                    [SVProgressHUD showErrorWithStatus:@"密码错误"];
+                    break;
+                    
+                }
+                
+            }
+        }
+        
+        
+        if (!isOK) {
+            NSString * sql = [NSString stringWithFormat:@"insert into kk_users (name,passWord) values (%@,%@)",self.textField1.text,self.textField3.text];
+            BOOL insert =  [db executeUpdate:sql];
+            if (insert) {
+                [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+                [zkSignleTool shareTool].session_uid = self.textField1.text;
+                [zkSignleTool shareTool].isLogin = YES;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                });
+                
+            }else {
+                [SVProgressHUD showErrorWithStatus:@"服务异常"];
+            }
+        }
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据库异常请稍后再试"];
+    }
+    
+    [db close];
+    
+    
+    
+    
+}
+
+
+
+
 //判断注册ID是否存在
 - (void)canRegister{
 //    NSDictionary *dict = @{@"userName":_textField1.text};
@@ -249,7 +332,7 @@
 //        if ([responseObject[@"key"] integerValue] == 1) {
             RegisterMessageVC *registerVC = [[RegisterMessageVC alloc] init];
             registerVC.userName = _textField1.text;
-            registerVC.password = _textField2.text;
+            registerVC.password = _textField3.text;
             registerVC.isCollection = _isCollection;
             [self.navigationController pushViewController:registerVC animated:YES];
 //        }else{

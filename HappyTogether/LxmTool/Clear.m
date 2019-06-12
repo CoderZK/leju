@@ -24,6 +24,7 @@
         }
         //返回主线程
         dispatch_async(dispatch_get_main_queue(), ^{
+            [[SDImageCache sharedImageCache] clearMemory];
             block();
         });
     });
@@ -47,7 +48,7 @@
         folderSize += [ self fileSizeAtPath :fileAbsolutePath];
     }
     //SDWebImage框架自身计算缓存的实现
-    folderSize+=[[SDImageCache sharedImageCache] getSize];
+    folderSize+=[[SDImageCache sharedImageCache] totalDiskCount];
     return folderSize/( 1024.0 * 1024.0 );
 }
 //计算单个文件大小

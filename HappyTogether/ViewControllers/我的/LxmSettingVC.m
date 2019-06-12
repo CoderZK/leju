@@ -8,7 +8,8 @@
 
 #import "LxmSettingVC.h"
 #import "Clear.h"
-
+#import "LxmXieYiVC.h"
+#import "RegisterViewController.h"
 @interface LxmSettingVC ()
 
 @end
@@ -30,72 +31,30 @@
     [btn setBackgroundImage:[UIImage imageNamed:@"white"] forState:UIControlStateNormal];
     [btn setTitleColor:CharacterGrayColor forState:UIControlStateNormal];
     [btn setTitle:@"退出登录" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(outAction:) forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     [footerView addSubview:btn];
     
 }
+
+- (void)outAction:(UIButton *)button {
+    [zkSignleTool shareTool].isLogin = NO;
+     RegisterViewController* vc =[[RegisterViewController alloc] init];
+    [self presentViewController:vc  animated:YES completion:nil];
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0)
-    {
-        return 2;
-    }
+  
     return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
-    
-    if (indexPath.section == 0)
-    {
-        if (indexPath.row == 0)
-        {
-            UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"cell"];
-            if (!cell)
-            {
-                cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-                
-                UIImageView * accImgView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenW-35, 28, 7, 13)];
-                accImgView.image = [UIImage imageNamed:@"lxmcelljiantou"];
-                cell.accessoryView = accImgView;
-            }
-            cell.textLabel.textColor = CharacterDarkColor;
-            cell.textLabel.font = [UIFont systemFontOfSize:14];
-            cell.textLabel.text = @"修改密码";
-            return cell;
-        }
-        else
-        {
-            
-            
-            UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"cell1"];
-            if (!cell)
-            {
-                cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell1"];
-                
-                UILabel * detailLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenW *0.5, 0, ScreenW *0.5-10, 50)];
-                detailLab.font = [UIFont systemFontOfSize:14];
-                detailLab.textColor = CharacterLightGrayColor;
-                detailLab.textAlignment = 2;
-                detailLab.text = @"已开启";
-                [cell addSubview:detailLab];
-
-            }
-            cell.textLabel.font = [UIFont systemFontOfSize:14];
-            cell.textLabel.textColor = CharacterDarkColor;
-            cell.textLabel.text = @"消息通知";
-            return cell;
-        }
-    }
-    else
-    {
-        
-        
         if (indexPath.row == 0)
         {
             UITableViewCell * cell =[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -130,6 +89,7 @@
             cell.detailTextLabel.textColor = CharacterDarkColor;
             cell.detailTextLabel.font = [UIFont systemFontOfSize:14];
             cell.textLabel.text = @"用户指南";
+            cell.clipsToBounds = YES;
             return cell;
         }
         else
@@ -152,33 +112,16 @@
             cell.textLabel.text = @"清除缓存";
             return cell;
         }
-    }
+    
    
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 1)
-    {
-        BaseTableViewHeaderFooterView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"BaseTableViewHeaderFooterView"];
-        if (!headerView)
-        {
-            headerView = [[BaseTableViewHeaderFooterView alloc] initWithReuseIdentifier:@"BaseTableViewHeaderFooterView"];
-            UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, ScreenW-20, 50)];
-            lab.textColor = CharacterLightGrayColor;
-            lab.font = [UIFont systemFontOfSize:11];
-            lab.text = @"如果你要关闭或者开启应用的消息通知,请在iPhone的\"设置\"--\"通知\"功能中,找到该应用程序进行更改";
-            lab.numberOfLines = 2;
-            [headerView addSubview:lab];
-        }
-        headerView.bgImageView.backgroundColor = BGGrayColor;
-        return headerView;
 
-    }
-    return nil;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 1) {
+        return 0;
+    }
     return 50;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -204,17 +147,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        
-    }else if (indexPath.section == 1){
+    
         if (indexPath.row == 2) {
             [Clear cleanCache:^{
                 [SVProgressHUD showSuccessWithStatus:@"已清除缓存"];
                 [self.tableView reloadData];
             }];
+        }else if (indexPath.row == 0) {
+            
+            LxmXieYiVC * vc =[[LxmXieYiVC alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            
         }
-    }else{
-        
-    }
+    
 }
 @end

@@ -12,6 +12,7 @@
 @interface LxmChargeVC ()
 {
     NSInteger _payType;
+    UITextField *_moneyTF;
 }
 @end
 
@@ -20,6 +21,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+
+    [[IQKeyboardManager sharedManager] setEnable:YES];
+    
     self.tableView.frame = CGRectMake(0, 0, ScreenW, ScreenH-50);
     self.tableView.separatorColor = BGGrayColor;
     self.navigationItem.title = @"充值";
@@ -51,7 +56,7 @@
     
     UILabel * phoneLab = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, ScreenW-40-10, 40)];
     phoneLab.textAlignment = 2;
-    phoneLab.text = @"15836861254";
+    phoneLab.text = [zkSignleTool shareTool].session_uid;
     phoneLab.textColor = CharacterGrayColor;
     phoneLab.font = [UIFont systemFontOfSize:30];
     [topView addSubview:phoneLab];
@@ -70,13 +75,35 @@
     moneyTf.keyboardType = UIKeyboardTypeNamePhonePad;
     moneyTf.textColor = YellowColor;
     moneyTf.font = [UIFont systemFontOfSize:25];
+    _moneyTF = moneyTf;
     [bottomView addSubview:moneyTf];
+    
+
+    
     
     
 }
+
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [_moneyTF resignFirstResponder];
+}
+
 -(void)bottomBtnClick
 {
     //确认支付
+    if (_moneyTF.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入充值金额"];
+        return;
+    }
+    [SVProgressHUD show];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+         [SVProgressHUD showSuccessWithStatus:@"出现问题,请联系客服进行人工充值"];
+        return ;
+    });
+   
+    
    
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
