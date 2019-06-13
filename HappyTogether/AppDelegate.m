@@ -27,7 +27,7 @@
     [self.window makeKeyAndVisible];
     
     [self configureAPIKey];
-    
+    FMDatabase * db =[FMDBSingle shareFMDB].fd;
     return YES;
 }
 

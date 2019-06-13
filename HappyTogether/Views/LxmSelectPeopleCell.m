@@ -41,7 +41,7 @@
         [editBtn addTarget:self action:@selector(iconBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [editBtn setImageEdgeInsets:UIEdgeInsetsMake(15, 0, 15, 0)];
         [editBtn setImage:[UIImage imageNamed:@"ico_biaoj"] forState:UIControlStateNormal];
-        [self addSubview:editBtn];
+//        [self addSubview:editBtn];
         
     }
     return self;

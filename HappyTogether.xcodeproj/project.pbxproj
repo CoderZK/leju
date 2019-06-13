@@ -78,6 +78,7 @@
 		5832EFD322B0E42800BA019E /* Clear.m in Sources */ = {isa = PBXBuildFile; fileRef = 5832EFD222B0E42800BA019E /* Clear.m */; };
 		58AD90A222AF442F005E23F5 /* FMDBSingle.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AD909F22AF442E005E23F5 /* FMDBSingle.m */; };
 		58AD90A322AF442F005E23F5 /* zkSignleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AD90A122AF442E005E23F5 /* zkSignleTool.m */; };
+		66C2A08D22B2811D00D572E4 /* YJHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C2A08C22B2811D00D572E4 /* YJHomeModel.m */; };
 		BA46980B1DFE40D4008CE498 /* LYOrderHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA46980A1DFE40D4008CE498 /* LYOrderHeaderView.m */; };
 		BA46980E1DFE48CC008CE498 /* LYOrderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA46980D1DFE48CC008CE498 /* LYOrderFooterView.m */; };
 		BA4698111DFE6A43008CE498 /* LYTuiDanTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BA4698101DFE6A43008CE498 /* LYTuiDanTVC.m */; };
@@ -231,6 +232,8 @@
 		58AD90A022AF442E005E23F5 /* FMDBSingle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDBSingle.h; sourceTree = "<group>"; };
 		58AD90A122AF442E005E23F5 /* zkSignleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zkSignleTool.m; sourceTree = "<group>"; };
 		640ABA9F63100B9B3E854491 /* Pods-HappyTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HappyTogether.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HappyTogether/Pods-HappyTogether.debug.xcconfig"; sourceTree = "<group>"; };
+		66C2A08B22B2811C00D572E4 /* YJHomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJHomeModel.h; sourceTree = "<group>"; };
+		66C2A08C22B2811D00D572E4 /* YJHomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHomeModel.m; sourceTree = "<group>"; };
 		BA4698091DFE40D4008CE498 /* LYOrderHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYOrderHeaderView.h; sourceTree = "<group>"; };
 		BA46980A1DFE40D4008CE498 /* LYOrderHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYOrderHeaderView.m; sourceTree = "<group>"; };
 		BA46980C1DFE48CC008CE498 /* LYOrderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYOrderFooterView.h; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 		407F0A7D1DED1D7D001949AA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				66C2A08B22B2811C00D572E4 /* YJHomeModel.h */,
+				66C2A08C22B2811D00D572E4 /* YJHomeModel.m */,
 				400F62BA1DF0FC870074BEC6 /* ZKLaiDianJiuModel.h */,
 				400F62BB1DF0FC870074BEC6 /* ZKLaiDianJiuModel.m */,
 				400F62BC1DF0FC870074BEC6 /* ZKQiangBaiShiOrZiZhuModel.h */,
@@ -753,6 +758,7 @@
 				4040F6C01DF6A09100E4095F /* LxmQiangBaiShiFooterView.m in Sources */,
 				400F62B31DF0FC6B0074BEC6 /* ZKQiangBaiShiVC.m in Sources */,
 				40B715251DF54CD200BFDB50 /* LxmOrderDetailVC.m in Sources */,
+				66C2A08D22B2811D00D572E4 /* YJHomeModel.m in Sources */,
 				4045FA8A1DEE6952004A72D4 /* NSLayoutConstraint+SimpleLayout.m in Sources */,
 				4040F6C31DF6A3AB00E4095F /* LXmQiangBaiShiOrderDetailVC.m in Sources */,
 				409B43BB1DFA8E54004ECF65 /* LxmSettingVC.m in Sources */,

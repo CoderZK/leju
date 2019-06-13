@@ -53,6 +53,7 @@
     cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"ico_1_%ld",indexPath.row]];
     if (indexPath.section == 0)
     {
+        cell.clipsToBounds = YES;
         cell.textLabel.text = @"发请柬";
         cell.imageView.image = [UIImage imageNamed:@"ico_1_1"];
     }
@@ -123,6 +124,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0) {
+        return 0;
+    }
+    
     return 50;
 }
 

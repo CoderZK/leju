@@ -57,8 +57,8 @@
 //        }
     }
     //实例化FMDataBase对象
-    NSLog(@"---path:%@",filePath);
-    NSLog(@"---path:%@",filePathTwo);
+    NSLog(@"---path11:%@",filePath);
+    NSLog(@"---path22:%@",filePathTwo);
 //    NSLog(@"---path:%@",filePathThree);
     FMDatabase *  fmdb = [FMDatabase databaseWithPath:filePath];
     return fmdb;

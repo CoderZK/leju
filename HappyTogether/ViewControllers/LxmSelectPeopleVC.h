@@ -15,4 +15,7 @@ typedef enum{
 }LxmSelectPeopleVC_Type;
 @interface LxmSelectPeopleVC : BaseTableViewController
 @property(nonatomic,assign)LxmSelectPeopleVC_Type type;
+
+@property(nonatomic , copy)void(^sendLianXiRenBlock)(NSString *str);
+
 @end

@@ -25,14 +25,14 @@
         titleLab.textColor = CharacterDarkColor;
         titleLab.font = [UIFont systemFontOfSize:14];
         [self addSubview:titleLab];
+        self.nameLB = titleLab;
         
-        
-        UILabel * distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenW-60, 10, 50, 20)];
-        distanceLab.text = @"1.3km";
-        distanceLab.textAlignment = 2;
-        distanceLab.textColor = CharacterLightGrayColor;
-        distanceLab.font = [UIFont systemFontOfSize:14];
-        [self addSubview:distanceLab];
+//        UILabel * distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(ScreenW-60, 10, 50, 20)];
+//        distanceLab.text = @"1.3km";
+//        distanceLab.textAlignment = 2;
+//        distanceLab.textColor = CharacterLightGrayColor;
+//        distanceLab.font = [UIFont systemFontOfSize:14];
+//        [self addSubview:distanceLab];
         
         
         UILabel * detailLab = [[UILabel alloc] initWithFrame:CGRectMake(100, 40, ScreenW-110, 20)];
@@ -46,6 +46,11 @@
         adressLab.textColor = YellowColor;
         adressLab.font = [UIFont systemFontOfSize:13];
         [self addSubview:adressLab];
+        
+        self.adressLab = adressLab;
+        self.detailLab = detailLab;
+        self.imgV = imgView;
+        
         
     }
     return self;

@@ -91,7 +91,7 @@
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 208)];
         headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         //输出用户
-        UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 30, ScreenW, 44)];
+        UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 60, ScreenW, 44)];
         view1.backgroundColor = [UIColor whiteColor];
         UIImageView *img1 = [[UIImageView alloc] initWithFrame:CGRectMake(9, 9, 25, 25)];
         img1.image = [UIImage imageNamed:@"icon_yonghum"];
@@ -119,7 +119,7 @@
 ////        [_textField4 setValue:CharacterGrayColor forKeyPath:@"_placeholderLabel.textColor"];
 //        [view2 addSubview:_textField4];
         //再次输入密码
-        UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 100, ScreenW, 44)];
+        UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, 130, ScreenW, 44)];
         view3.backgroundColor = [UIColor whiteColor];
         UIImageView *img3 = [[UIImageView alloc] initWithFrame:CGRectMake(9, 9, 25, 25)];
         img3.image = [UIImage imageNamed:@"icon_mima"];

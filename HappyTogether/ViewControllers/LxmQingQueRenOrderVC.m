@@ -19,6 +19,7 @@
 @interface LxmQingQueRenOrderVC ()
 {
     NSMutableArray * _btnArr;
+    NSString * lianXiRen;
 }
 @end
 
@@ -27,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    lianXiRen = @"请选择联系人";
     self.navigationItem.title = @"确认订单";
     _btnArr = [NSMutableArray array];
     self.tableView.separatorColor = BGGrayColor;
@@ -36,7 +38,7 @@
     [self.view addSubview:bottomView];
     
     UILabel * moneyLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, ScreenW-10-100, 20)];
-    NSString * str1 = @"待支付￥986";
+    NSString * str1 =  [NSString stringWithFormat:@"待支付￥%0.2lf",self.model.price];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
     [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, 3)];
     [attri addAttribute:NSForegroundColorAttributeName value:CharacterDarkColor range:NSMakeRange(0, 3)];
@@ -83,7 +85,7 @@
         {
             cell=[[LxmQiangBaiOrderAdressCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmQiangBaiOrderAdressCell"];
         }
-        cell.titleLab.text = @"请填写您的姓名和手机号码";
+        cell.titleLab.text = lianXiRen;
         return cell;
     }
     else if (indexPath.section == 1)
@@ -235,6 +237,11 @@
     {
         LxmSelectPeopleVC * vc = [[LxmSelectPeopleVC alloc] init];
         vc.type = LxmSelectPeopleVC_Type_qingbaishi;
+        __weak typeof(self) weakSelf = self;
+        vc.sendLianXiRenBlock = ^(NSString *str) {
+            [weakSelf.tableView reloadData];
+            lianXiRen = str;
+        };
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

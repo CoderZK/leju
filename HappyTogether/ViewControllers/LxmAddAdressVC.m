@@ -86,7 +86,7 @@
     }
     else
     {
-        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 150)];
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 100)];
         _headerView.backgroundColor = [UIColor whiteColor];
         self.tableView.tableHeaderView = _headerView;
         
@@ -100,9 +100,9 @@
         _phoneView.tf.placeholder = @"请输入联系方式";
         [_headerView addSubview:_phoneView];
         
-        _sexView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, ScreenW, 50)];
-        [_headerView addSubview:_sexView];
-        
+//        _sexView = [[UIView alloc] initWithFrame:CGRectMake(0, 100, ScreenW, 50)];
+//        [_headerView addSubview:_sexView];
+//
         UILabel * lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 50, 20)];
         lab.font = [UIFont systemFontOfSize:15];
         lab.textColor = CharacterDarkColor;
@@ -143,10 +143,46 @@
     UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 30, ScreenW, 40)];
     [btn setBackgroundImage:[UIImage imageNamed:@"yellow"] forState:UIControlStateNormal];
     [btn setTitle:@"确定" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     [footerView addSubview:btn];
     
 }
+
+- (void)confirmAction:(UIButton *)sender {
+    if (_nameView.tf.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入姓名"];
+        return;
+    }
+    if (_phoneView.tf.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入收件人电话"];
+        return;
+    }
+
+    
+    NSString * sql = [NSString stringWithFormat:@"insert into kk_lianXiRen (name,phone,userId) values ('%@','%@','%@')",_nameView.tf.text,_phoneView.tf.text,[zkSignleTool shareTool].session_uid];
+    
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    if ([db open]) {
+        BOOL insert = [db executeUpdate:sql];
+        if (insert) {
+            [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }
+    }else {
+        
+        [SVProgressHUD showErrorWithStatus:@"数据异常"];
+        
+        
+    }
+    
+    
+    
+    
+}
+
 -(void)btnClick:(UIButton *)btn
 {
     for (UIButton * btnn in _btnArr)

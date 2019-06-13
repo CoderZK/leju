@@ -15,9 +15,20 @@
 {
     NSInteger _selectIndex;
 }
+@property(nonatomic , strong)NSMutableArray<YJHomeModel *> *dataArray;
 @end
 
 @implementation LxmSelectPeopleVC
+-(NSMutableArray<YJHomeModel *> *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self getData];
+}
 
 - (void)viewDidLoad
 {
@@ -37,6 +48,30 @@
     [self.view addSubview:bottomBtn];
     
 }
+
+- (void)getData {
+    
+    FMDatabase * db =[FMDBSingle shareFMDB].fd;
+    NSString * sql = [NSString stringWithFormat:@"select * from kk_lianXiRen"];
+    BOOL isOpen =[db open];
+    if (isOpen) {
+        FMResultSet *result =[db executeQuery:sql];
+        while ([result next]) {
+            YJHomeModel * model = [[YJHomeModel alloc] init];
+            model.phone = [result stringForColumn:@"phone"];
+            model.name = [result stringForColumn:@"name"];
+            model.address = [result stringForColumn:@"address"];
+            [self.dataArray addObject:model];
+        }
+        
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据异常"];
+    }
+    
+    [db close];
+    [self.tableView reloadData];
+}
+
 -(void)bottomBtn
 {
     LxmAddAdressVC * vc = [[LxmAddAdressVC alloc] init];
@@ -53,7 +88,7 @@
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return self.dataArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -78,6 +113,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.iconBtn.selected = (_selectIndex == indexPath.section);
     cell.delegate = self;
+    cell.titleLab.text =  [NSString stringWithFormat:@"%@ - %@",self.dataArray[indexPath.row].name,self.dataArray[indexPath.row].phone];
     return cell;
 }
 -(void)LxmSelectPeopleCell:(LxmSelectPeopleCell *)cell index:(NSInteger)index
@@ -101,5 +137,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.sendLianXiRenBlock != nil) {
+        self.sendLianXiRenBlock([NSString stringWithFormat:@"%@ - %@",self.dataArray[indexPath.row].name,self.dataArray[indexPath.row].phone]);
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 @end

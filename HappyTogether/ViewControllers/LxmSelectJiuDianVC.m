@@ -26,10 +26,16 @@
     NSMutableArray * _btnArr;
     
 }
+@property(nonatomic,strong)NSMutableArray<YJHomeModel *> *dataArray;
 @end
 
 @implementation LxmSelectJiuDianVC
-
+- (NSMutableArray<YJHomeModel *> *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -75,7 +81,36 @@
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-44-[_topView(40)]-0-[_tableView]-0-|" options:NSLayoutFormatDirectionLeadingToTrailing metrics:nil views:NSDictionaryOfVariableBindings(_topView,_tableView)]];
 
+    [self getData];
+    
 }
+
+- (void)getData {
+    
+    NSString * sql = [NSString stringWithFormat:@"select *from kk_jiuDian"];
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        FMResultSet * result = [db executeQuery:sql];
+        while ([result next]) {
+            YJHomeModel * model = [[YJHomeModel alloc] init];
+            model.title = [result stringForColumn:@"name"];
+            model.content = [result stringForColumn:@"content"];
+            model.name =  [result stringForColumn:@"name"];
+             model.address =  [result stringForColumn:@"address"];
+            model.detailAddress =  [result stringForColumn:@"detailAddress"];
+            [self.dataArray addObject:model];
+        }
+        [_tableView reloadData];
+        
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据异常请稍后再试"];
+    }
+    
+    
+    
+}
+
 -(void)btnClick:(UIButton *)btn
 {
     for (LxmHomeCateBtn * tmpBtn in _btnArr)
@@ -141,7 +176,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 10;
+    return self.dataArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -162,6 +197,10 @@
     {
         cell=[[LxmSelectJiuDianCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmSelectJiuDianCell"];
     }
+    cell.imgV.image = [UIImage imageNamed: [NSString stringWithFormat:@"%ld-%ld",(long)indexPath.row,indexPath.section]];
+    cell.nameLB.text = self.dataArray[indexPath.section].name;
+    cell.adressLab.text = self.dataArray[indexPath.section].address;
+    cell.detailLab.text = self.dataArray[indexPath.section].detailAddress;
     cell.backgroundColor = [UIColor whiteColor];
     return cell;
 }

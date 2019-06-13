@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface LxmSelectJiuDianCell : UITableViewCell
+/**  */
+@property(nonatomic , strong)UIImageView *imgV;
+/**  */
+@property(nonatomic , strong)UILabel *adressLab,*detailLab,*nameLB;
 
 @end
