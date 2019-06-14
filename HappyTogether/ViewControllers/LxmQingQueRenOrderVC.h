@@ -11,4 +11,5 @@
 @interface LxmQingQueRenOrderVC : BaseTableViewController
 /** J */
 @property(nonatomic , strong)YJHomeModel *model;
+@property(nonatomic,assign)NSInteger status;
 @end

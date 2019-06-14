@@ -11,14 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface YJHomeModel : NSObject
-@property(nonatomic,strong)NSString *img,*title,*des,*desTwo,*content,*name,*phone,*address,*userID;
+@property(nonatomic,strong)NSString *img,*title,*des,*desTwo,*content,*name,*phone,*address,*userID,*caipinName,*lianXiRen;
 @property(nonatomic,assign)NSInteger ID,status;
-/** <#注释#> */
 @property(nonatomic , strong)NSString *goodId;
 @property(nonatomic , strong)NSString *detailAddress;
-@property(nonatomic,assign)float price;
+@property(nonatomic,assign)float price,priceTwo;
 @property(nonatomic,assign)NSInteger number;
 @property(nonatomic,assign)BOOL isSelect;
+@property(nonatomic,strong)NSString *code,*time,*dingdanNumber;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,5 +9,5 @@
 #import "BaseTableViewHeaderFooterView.h"
 
 @interface LxmQiangBaiShiFooterView : BaseTableViewHeaderFooterView
-
+@property(nonatomic,strong)UILabel *moneyLb;
 @end

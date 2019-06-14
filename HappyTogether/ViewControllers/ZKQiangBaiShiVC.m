@@ -128,6 +128,7 @@
     {
         LxmQingQueRenOrderVC * vc = [[LxmQingQueRenOrderVC alloc] initWithTableViewStyle:UITableViewStyleGrouped];
         vc.model = self.dataArray[button.tag];
+        vc.status = button.tag + 1;
         [self.navigationController pushViewController:vc animated:YES];
     }
     

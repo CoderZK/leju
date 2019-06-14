@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LxmSureOrderCaiCell : UITableViewCell
-
+@property(nonatomic,strong)UILabel *titleLab,*priceLab,*countLab,*totalLab;
+@property(nonatomic,strong)UIImageView *imgV;
 @end

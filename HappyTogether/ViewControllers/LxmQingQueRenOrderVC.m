@@ -21,6 +21,9 @@
     NSMutableArray * _btnArr;
     NSString * lianXiRen;
 }
+@property(nonatomic,strong)UILabel *moneyLab;
+
+
 @end
 
 @implementation LxmQingQueRenOrderVC
@@ -28,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+     [self getData];
+    
     lianXiRen = @"请选择联系人";
     self.navigationItem.title = @"确认订单";
     _btnArr = [NSMutableArray array];
@@ -38,30 +44,122 @@
     [self.view addSubview:bottomView];
     
     UILabel * moneyLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, ScreenW-10-100, 20)];
-    NSString * str1 =  [NSString stringWithFormat:@"待支付￥%0.2lf",self.model.price];
+    NSString * str1 =  [NSString stringWithFormat:@"待支付￥%0.2lf",self.model.priceTwo];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
     [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, 3)];
     [attri addAttribute:NSForegroundColorAttributeName value:CharacterDarkColor range:NSMakeRange(0, 3)];
     moneyLab.textColor = [UIColor redColor];
     moneyLab.font = [UIFont systemFontOfSize:18];
     moneyLab.attributedText = attri;
+    self.moneyLab = moneyLab;
     [bottomView addSubview:moneyLab];
     
     UIButton * bottomBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenW-100, 0, 100, 50)];
     [bottomBtn setBackgroundImage:[UIImage imageNamed:@"btn_jiesuan"] forState:UIControlStateNormal];
-    [bottomBtn setTitle:@"确认支付" forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"确认预定" forState:UIControlStateNormal];
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [bottomBtn addTarget:self action:@selector(bottomBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:bottomBtn];
     
-}
--(void)bottomBtnClick
-{
-    LXmQiangBaiShiOrderDetailVC * vc= [[LXmQiangBaiShiOrderDetailVC alloc] init];
-    vc.type = LXmQiangBaiShiOrderDetailVC_type_qingbaishi;
-    [self.navigationController pushViewController:vc animated:YES];
+   
+    
 }
 
+- (void)getData {
+    
+    NSString * sql = [NSString stringWithFormat:@"select *from kk_caipin where status = %ld",(long)self.status];
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        FMResultSet * result = [db executeQuery:sql];
+        if ([result next]) {
+
+            _model.img = [result stringForColumn:@"img"];
+            _model.caipinName = [result stringForColumn:@"caipinName"];
+            _model.priceTwo =  [result doubleForColumn:@"priceTwo"];
+            _model.status =  [result intForColumn:@"status"];
+        }
+        [self.tableView reloadData];
+        
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据异常请稍后再试"];
+    }
+    
+}
+
+-(void)bottomBtnClick
+{
+    
+    if (self.model.lianXiRen.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请选择联系人"];
+        return ;
+    }
+    
+    UIAlertController * alertVC =[UIAlertController alertControllerWithTitle:@"提示" message:@"提交预定之后您的订单就会生成,将有专业人员联系您并确认" preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+
+        [self insterDianDan];
+        
+        
+
+    }];
+    
+    [alertVC addAction:action1];
+    [alertVC addAction:action2];
+    [self presentViewController:alertVC animated:YES completion:nil];
+    
+    
+}
+
+
+- (void)insterDianDan {
+    
+    NSDateFormatter *dateStringFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateStringFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *currentDate = [NSDate date];
+    NSString * time = [dateStringFormatter stringFromDate:currentDate];
+    
+    NSInteger  code = arc4random() % 10000 + 10000;
+    
+    NSString * codeStr = [NSString stringWithFormat:@"%ld",(long)code];
+    
+    NSInteger  number = arc4random() % 10000000000 + 10000000000;
+    
+    NSString * numberStr = [NSString stringWithFormat:@"%ld",(long)number];
+    
+    self.model.time = time;
+    self.model.code = codeStr;
+    self.model.dingdanNumber = numberStr;
+    
+    
+    
+    NSString * sql = [NSString stringWithFormat:@"insert into kk_dingDan (lianXianRen,jiuDianName,caipinName,price,time,dingdanNumber,code) values ('%@','%@','%@','%f','%@','%@','%@')",self.model.lianXiRen,self.model.name,self.model.caipinName,self.model.priceTwo,time,numberStr,codeStr,[zkSignleTool shareTool].session_uid];
+    
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    if ([db open]) {
+        BOOL insert = [db executeUpdate:sql];
+        if (insert) {
+            [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                LXmQiangBaiShiOrderDetailVC * vc= [[LXmQiangBaiShiOrderDetailVC alloc] init];
+                vc.type = LXmQiangBaiShiOrderDetailVC_type_qingbaishi;
+                vc.model = self.model;
+                [self.navigationController pushViewController:vc animated:YES];
+            });
+        }
+    }else {
+        
+        [SVProgressHUD showErrorWithStatus:@"数据异常"];
+        
+        
+    }
+    
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -100,9 +198,11 @@
             [leftBtn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
             [leftBtn addTarget: self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             [leftBtn setTitleColor:CharacterDarkColor forState:UIControlStateNormal];
+            
             [leftBtn setBackgroundImage:[UIImage imageNamed:@"btn_weidianj"] forState:UIControlStateNormal];
             [leftBtn setBackgroundImage:[UIImage imageNamed:@"btn_dianji"] forState:UIControlStateSelected];
             [cell addSubview:leftBtn];
+            leftBtn.tag = 100;
             [_btnArr addObject:leftBtn];
             
             UIButton * rigthtBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenW-51, 8, 41, 25)];
@@ -111,6 +211,7 @@
             [rigthtBtn setTitle:@"2人" forState:UIControlStateNormal];
             [rigthtBtn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
             rigthtBtn.selected = YES;
+            rigthtBtn.tag = 200;
             [rigthtBtn setTitleColor:CharacterDarkColor forState:UIControlStateNormal];
             [rigthtBtn setBackgroundImage:[UIImage imageNamed:@"btn_weidianj"] forState:UIControlStateNormal];
             [rigthtBtn setBackgroundImage:[UIImage imageNamed:@"btn_dianji"] forState:UIControlStateSelected];
@@ -132,6 +233,11 @@
             {
                 cell=[[LxmSureOrderCaiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmSureOrderCaiCell"];
             }
+            cell.titleLab.text = self.model.caipinName;
+            cell.priceLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.model.priceTwo];
+            cell.totalLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.model.priceTwo];
+          
+            cell.imgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",self.model.img]];
             return cell;
         }
         else
@@ -166,7 +272,7 @@
     }
     headerView.isImgHidden = YES;
     headerView.titleLab.font = [UIFont systemFontOfSize:14];
-    headerView.titleLab.text = @"金陵江南大酒店";
+    headerView.titleLab.text = self.model.name;
     headerView.linView.hidden = YES;
     return headerView;
     
@@ -174,16 +280,16 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 2)
-    {
-        LxmQiangBaiShiFooterView * footerView =[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"LxmQiangBaiShiFooterView"];
-        if (!footerView)
-        {
-            footerView = [[LxmQiangBaiShiFooterView alloc] initWithReuseIdentifier:@"LxmQiangBaiShiFooterView"];
-        }
-        footerView.bgImageView.backgroundColor = [UIColor whiteColor];
-        return footerView;
-    }
+//    if (section == 2)
+//    {
+//        LxmQiangBaiShiFooterView * footerView =[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"LxmQiangBaiShiFooterView"];
+//        if (!footerView)
+//        {
+//            footerView = [[LxmQiangBaiShiFooterView alloc] initWithReuseIdentifier:@"LxmQiangBaiShiFooterView"];
+//        }
+//        footerView.bgImageView.backgroundColor = [UIColor whiteColor];
+//        return footerView;
+//    }
     return nil;
     
 }
@@ -193,7 +299,12 @@
     for (UIButton * btnn in _btnArr)
     {
         btnn.selected = btnn == btn;
+       
     }
+//    NSString * str1 =  [NSString stringWithFormat:@"待支付￥%0.2ld",btn.tag];
+//    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
+//    [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, 3)];
+//    [attri addAttribute:NSForegroundColorAttributeName value:CharacterDarkColor range:NSMakeRange(0, 3)];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -240,6 +351,7 @@
         __weak typeof(self) weakSelf = self;
         vc.sendLianXiRenBlock = ^(NSString *str) {
             [weakSelf.tableView reloadData];
+            weakSelf.model.lianXiRen = str;
             lianXiRen = str;
         };
         [self.navigationController pushViewController:vc animated:YES];

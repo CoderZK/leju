@@ -15,4 +15,5 @@ typedef enum {
 }LXmQiangBaiShiOrderDetailVC_type;
 @interface LXmQiangBaiShiOrderDetailVC : BaseTableViewController
 @property(nonatomic,assign)LXmQiangBaiShiOrderDetailVC_type type;
+@property(nonatomic,strong)YJHomeModel *model;
 @end

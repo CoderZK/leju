@@ -9,5 +9,5 @@
 #import "BaseTableViewController.h"
 
 @interface LxmDianBaiJiuorderDetailVC : BaseTableViewController
-
+@property(nonatomic,strong)YJHomeModel *model;
 @end
