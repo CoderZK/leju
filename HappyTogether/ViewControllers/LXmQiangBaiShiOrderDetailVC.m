@@ -34,13 +34,13 @@
     UIView * footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 50)];
     self.tableView.tableFooterView = footView;
     
-    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenW-90, 10, 80, 30)];
-    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundImage:[UIImage imageNamed:@"btn_bqxz"] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [btn setTitle:@"申请退单" forState:UIControlStateNormal];
-    [btn setTitleColor:CharacterLightGrayColor forState:UIControlStateNormal];
-    [footView addSubview:btn];
+//    UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenW-90, 10, 80, 30)];
+//    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [btn setBackgroundImage:[UIImage imageNamed:@"btn_bqxz"] forState:UIControlStateNormal];
+//    btn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [btn setTitle:@"申请退单" forState:UIControlStateNormal];
+//    [btn setTitleColor:CharacterLightGrayColor forState:UIControlStateNormal];
+//    [footView addSubview:btn];
 
 }
 -(void)btnClick
@@ -67,7 +67,7 @@
     {
           if (self.type == LXmQiangBaiShiOrderDetailVC_type_chaozhizizhu)
           {
-              return 4;
+              return 2;
           }
             else
             {
@@ -104,7 +104,7 @@
             {
                 cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
                 cell.textLabel.text = @"验证码";
-                cell.detailTextLabel.text = @"0519 788990";
+                cell.detailTextLabel.text = self.model.code;
             }
 
         }
@@ -120,7 +120,7 @@
             else
             {
                 cell.textLabel.text = @"验证码";
-                cell.detailTextLabel.text = @"0519 788990";
+                cell.detailTextLabel.text = self.model.code;
             }
 
         }
@@ -133,6 +133,7 @@
         {
             cell=[[LxmQiangBaiOrderAdressCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmQiangBaiOrderAdressCell"];
         }
+        cell.titleLab.text = self.model.lianXiRen;
         return cell;
     }
     else if (indexPath.section == 2)
@@ -144,6 +145,11 @@
             {
                 cell=[[LxmSureOrderCaiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmSureOrderCaiCell"];
             }
+            cell.titleLab.text = self.model.caipinName;
+            cell.priceLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.model.priceTwo];
+            cell.totalLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.model.priceTwo];
+            
+            cell.imgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",self.model.img]];
             return cell;
             
         }
@@ -184,31 +190,24 @@
         {
             if (indexPath.row == 0)
             {
-                cell.textLabel.text = @"订单号:10511429246625426";
-            }
-            else if (indexPath.row == 1)
-            {
-                cell.textLabel.text = @"支付方式:在线支付";
-            }
-            else if (indexPath.row == 2)
-            {
-                cell.textLabel.text = @"下单时间:2016-11-11 16:50";
+                cell.textLabel.text = [NSString stringWithFormat:@"订单号: %@",self.model.dingdanNumber];
             }
             else
             {
-                cell.textLabel.text = @"支付时间:2016-11-11 16:50";
+                cell.textLabel.text = [NSString stringWithFormat:@"下单时间: %@",self.model.time];;
             }
+
 
         }
         else
         {
             if (indexPath.row == 0)
             {
-                cell.textLabel.text = @"订单号:10511429246625426";
+                cell.textLabel.text = [NSString stringWithFormat:@"订单号: %@",self.model.dingdanNumber];
             }
             else
             {
-                cell.textLabel.text = @"下单时间:2016-11-11 16:50";
+                cell.textLabel.text = [NSString stringWithFormat:@"下单时间: %@",self.model.time];;
             }
 
         }
@@ -235,7 +234,7 @@
             }
             headerView.isImgHidden = YES;
             headerView.titleLab.font = [UIFont systemFontOfSize:14];
-            headerView.titleLab.text = @"金陵江南大酒店";
+            headerView.titleLab.text = self.model.name;
             headerView.linView.hidden = YES;
             return headerView;
             
@@ -264,7 +263,7 @@
             }
             headerView.isImgHidden = YES;
             headerView.titleLab.font = [UIFont systemFontOfSize:14];
-            headerView.titleLab.text = @"金陵江南大酒店";
+            headerView.titleLab.text = self.model.name;
             headerView.linView.hidden = YES;
             return headerView;
             

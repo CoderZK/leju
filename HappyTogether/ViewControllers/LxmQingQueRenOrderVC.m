@@ -120,7 +120,7 @@
     
     NSDateFormatter *dateStringFormatter = [[NSDateFormatter alloc] init];
     
-    [dateStringFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateStringFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *currentDate = [NSDate date];
     NSString * time = [dateStringFormatter stringFromDate:currentDate];
     
@@ -138,7 +138,7 @@
     
     
     
-    NSString * sql = [NSString stringWithFormat:@"insert into kk_dingDan (lianXianRen,jiuDianName,caipinName,price,time,dingdanNumber,code) values ('%@','%@','%@','%f','%@','%@','%@')",self.model.lianXiRen,self.model.name,self.model.caipinName,self.model.priceTwo,time,numberStr,codeStr,[zkSignleTool shareTool].session_uid];
+    NSString * sql = [NSString stringWithFormat:@"insert into kk_dingDan (lianXianRen,jiuDianName,caipinName,price,time,dingdanNumber,code,userId) values ('%@','%@','%@','%f','%@','%@','%@','%@')",self.model.lianXiRen,self.model.name,self.model.caipinName,self.model.priceTwo,time,numberStr,codeStr,[zkSignleTool shareTool].session_uid];
     
     FMDatabase * db = [FMDBSingle shareFMDB].fd;
     if ([db open]) {

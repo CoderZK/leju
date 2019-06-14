@@ -11,11 +11,17 @@
 #import "LxmChargeVC.h"
 
 @interface LxmLeJuZhiVC ()
-
+@property(nonatomic,strong)NSMutableArray<YJHomeModel *> *dataArray;
 @end
 
 @implementation LxmLeJuZhiVC
 
+- (NSMutableArray<YJHomeModel *> *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -26,17 +32,17 @@
     UIView * footerView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenH-50, ScreenW, 20)];
     [self.view addSubview:footerView];
     
-    if (self.type == LxmLeJuZhiVC_Type_zhi)
-    {
-        
-        UIButton * rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
-        [rightBtn setTitle:@"规则" forState:UIControlStateNormal];
-        [rightBtn setTitleColor:CharacterDarkColor forState:UIControlStateNormal];
-        rightBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
-        
-    }
+//    if (self.type == LxmLeJuZhiVC_Type_zhi)
+//    {
+//
+//        UIButton * rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
+//        [rightBtn setTitle:@"规则" forState:UIControlStateNormal];
+//        [rightBtn setTitleColor:CharacterDarkColor forState:UIControlStateNormal];
+//        rightBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+//        rightBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+//
+//    }
     UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 140+5)];
     headerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableHeaderView = headerView;
@@ -45,7 +51,7 @@
     if (self.type == LxmLeJuZhiVC_Type_zhi)
     {
         self.navigationItem.title = @"乐聚值";
-        lab.text = @"80";
+        lab.text = @"28";
         lab.textAlignment = 1;
         lab.font = [UIFont systemFontOfSize:50];
         lab.textColor = YellowColor;
@@ -55,12 +61,12 @@
         lab1.text = @"乐聚值特权将在2.0版本开放,敬请期待";
         lab1.textColor = CharacterLightGrayColor;
         lab1.font = [UIFont systemFontOfSize:14];
-        [footerView addSubview:lab1];
+//        [footerView addSubview:lab1];
     }
     else
     {
         self.navigationItem.title = @"乐聚通";
-        NSString * str1 = @"￥78.00";
+        NSString * str1 = @"￥220.00";
         NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
         [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, 1)];
         lab.textAlignment = 1;
@@ -84,8 +90,39 @@
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 140, ScreenW, 5)];
     lineView.backgroundColor = BGGrayColor;
     [headerView addSubview:lineView];
+    [self getData];
+}
+
+//获取数据
+- (void)getData {
+    NSString * sql = @"";
+    if (self.type == LxmLeJuZhiVC_Type_zhi) {
+       sql = [NSString stringWithFormat:@"select *from kk_lejuzhi where userId = '%@'",[zkSignleTool shareTool].session_uid];
+    }else {
+       sql = [NSString stringWithFormat:@"select *from kk_lejutong where userId = '%@'",[zkSignleTool shareTool].session_uid];
+    }
+    
+    
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        FMResultSet * result = [db executeQuery:sql];
+        while ([result next]) {
+            YJHomeModel * model = [[YJHomeModel alloc] init];
+            model.name = [result stringForColumn:@"name"];
+            model.price =  [result doubleForColumn:@"name"];
+            [self.dataArray addObject:model];
+        }
+        [self.tableView reloadData];
+        
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据异常请稍后再试"];
+    }
+    
+    
     
 }
+
 -(void)bottomBtnClick
 {
     //充值
@@ -95,7 +132,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,6 +142,7 @@
     {
         cell=[[LxmLeJuZhiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmLeJuZhiCell"];
     }
+    cell.titleLab.text = self.dataArray[indexPath.row].name;
     return cell;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

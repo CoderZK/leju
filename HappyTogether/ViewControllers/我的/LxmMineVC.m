@@ -179,7 +179,7 @@
             [cell addSubview:lineView];
             
             UILabel *leftLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, ScreenW * 0.5-0.25, 40)];
-            leftLab.text = @"80";
+            leftLab.text = @"28";
             leftLab.textAlignment = 1;
             leftLab.font = [UIFont systemFontOfSize:30];
             leftLab.textColor = [UIColor colorWithRed:252/201.0 green:179/255.0 blue:0/255.0 alpha:1];
@@ -200,7 +200,7 @@
             [cell addSubview:rightViewBtn];
             
             UILabel *rightLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, ScreenW * 0.5-0.25, 40)];
-            NSString * str1 = @"￥78";
+            NSString * str1 = @"￥220";
             NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
             [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, 1)];
             rightLab.textAlignment = 1;
