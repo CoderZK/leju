@@ -51,6 +51,20 @@
     str1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"str1"];
     str2 = [[NSUserDefaults standardUserDefaults] objectForKey:@"str2"];
     str3 = [[NSUserDefaults standardUserDefaults] objectForKey:@"str3"];
+    
+    if (str1.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请选择预定人数"];
+        return;
+    }
+    if (str2.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"预计消费"];
+        return;
+    }
+    if (str3.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"选择餐别"];
+        return;
+    }
+    
     LxmSelectJiuDianVC * vc = [[LxmSelectJiuDianVC alloc] init];
     vc.rightBtnStr = [NSString stringWithFormat:@"%@人 %@ %@",str1,str2,str3];
     [[NSUserDefaults standardUserDefaults] setObject:@0 forKey:@"isfirst"];
@@ -157,18 +171,7 @@
      str3 = [[NSUserDefaults standardUserDefaults] objectForKey:@"str3"];
     NSLog(@"%@人 %@ %@",str1,str2,str3);
     
-    if (str1.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"请选择预定人数"];
-        return;
-    }
-    if (str2.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"预计消费"];
-        return;
-    }
-    if (str3.length == 0) {
-        [SVProgressHUD showErrorWithStatus:@"选择餐别"];
-        return;
-    }
+   
     
     _stri = [NSString stringWithFormat:@"%@人 %@ %@",str1,str2,str3];
     if (_stri)

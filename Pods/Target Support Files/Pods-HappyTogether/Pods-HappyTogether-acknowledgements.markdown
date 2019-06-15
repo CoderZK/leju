@@ -268,6 +268,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+## UMengUShare
+
+Copyright 2011 - 2018 UMeng.com. All rights reserved.
+
+
 ## pop
 
 BSD License

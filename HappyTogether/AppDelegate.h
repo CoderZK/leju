@@ -1,9 +1,9 @@
 //
 //  AppDelegate.h
-//  HappyTogether
+//  Shop
 //
-//  Created by 李晓满 on 16/11/29.
-//  Copyright © 2016年 李晓满. All rights reserved.
+//  Created by 朱啸 on 2018/4/11.
+//  Copyright © 2018年 朱啸. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
