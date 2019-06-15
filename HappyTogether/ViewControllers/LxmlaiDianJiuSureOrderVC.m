@@ -13,10 +13,11 @@
 #import "LxmQiangBaiShiFooterView.h"
 #import "LxmSelectPeopleVC.h"
 #import "LxmDianBaiJiuorderDetailVC.h"
-
+#import "LxmQiangBaiOrderAdressCell.h"
 @interface LxmlaiDianJiuSureOrderVC ()
 {
     NSInteger _payType;
+    NSString * lianXiRen;
 }
 @end
 
@@ -25,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    lianXiRen = @"请选择联系人";
     self.navigationItem.title = @"确认订单";
     self.tableView.separatorColor = BGGrayColor;
     self.tableView.frame = CGRectMake(0, 0, ScreenW, ScreenH-50);
@@ -34,7 +36,7 @@
     [self.view addSubview:bottomView];
     
     UILabel * moneyLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, ScreenW-10-100, 20)];
-    NSString * str1 = @"待支付￥986";
+    NSString * str1 =  [NSString stringWithFormat:@"待支付￥%0.2f",self.totalMoney];
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
     [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, 3)];
     [attri addAttribute:NSForegroundColorAttributeName value:CharacterDarkColor range:NSMakeRange(0, 3)];
@@ -46,14 +48,31 @@
     UIButton * bottomBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenW-100, 0, 100, 50)];
     [bottomBtn setBackgroundImage:[UIImage imageNamed:@"btn_jiesuan"] forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
-    [bottomBtn setTitle:@"确认支付" forState:UIControlStateNormal];
+    [bottomBtn setTitle:@"确认预定" forState:UIControlStateNormal];
     bottomBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [bottomView addSubview:bottomBtn];
 }
 -(void)btnClick
 {
-    LxmDianBaiJiuorderDetailVC * vc = [[LxmDianBaiJiuorderDetailVC alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if ([lianXiRen isEqualToString:@"请选择联系人"]){
+        [SVProgressHUD showErrorWithStatus:@"请选择联系人"];
+        return;
+    }
+    
+    if (_payType == 2) {
+        [SVProgressHUD showErrorWithStatus:@"您的余额不足请充值"];
+        return;
+    }
+
+    [SVProgressHUD showSuccessWithStatus:@"预定成功"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    });
+
+    
+//    LxmDianBaiJiuorderDetailVC * vc = [[LxmDianBaiJiuorderDetailVC alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -61,22 +80,26 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 2)
-    {
+    if (section == 0) {
+        return 1;
+    }else if (section == 1) {
+        return self.dataArray.count;
+    }else {
         return 4;
     }
-    return 1;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
     {
-        LxmSureOrderAddressCell * cell =[tableView dequeueReusableCellWithIdentifier:@"LxmSureOrderAddressCell"];
+        LxmQiangBaiOrderAdressCell * cell =[tableView dequeueReusableCellWithIdentifier:@"LxmQiangBaiOrderAdressCell"];
         if (!cell)
         {
-            cell=[[LxmSureOrderAddressCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmSureOrderAddressCell"];
+            cell=[[LxmQiangBaiOrderAdressCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmQiangBaiOrderAdressCell"];
         }
+        cell.titleLab.text = lianXiRen;
         return cell;
     }
     else if (indexPath.section == 1)
@@ -86,6 +109,11 @@
         {
             cell=[[LxmSureOrderCaiCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LxmSureOrderCaiCell"];
         }
+        cell.titleLab.text = self.dataArray[indexPath.row].name;
+        cell.priceLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.dataArray[indexPath.row].price];
+        cell.totalLab.text = [NSString stringWithFormat:@"￥%0.2lf",self.dataArray[indexPath.row].price * self.dataArray[indexPath.row].choiceNumber];
+        cell.countLab.text =  [NSString stringWithFormat:@"x%ld",self.dataArray[indexPath.row].choiceNumber];
+        cell.imgV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",self.dataArray[indexPath.row].img]];
         return cell;
     }
     else
@@ -160,21 +188,21 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 1)
-    {
-        LxmQiangBaiShiFooterView * footerView =[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"LxmQiangBaiShiFooterView"];
-        if (!footerView)
-        {
-            footerView = [[LxmQiangBaiShiFooterView alloc] initWithReuseIdentifier:@"LxmQiangBaiShiFooterView"];
-            
-            UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 40, ScreenW, 5)];
-            view.backgroundColor = BGGrayColor;
-            [footerView addSubview:view];
-            
-        }
-        footerView.bgImageView.backgroundColor = [UIColor whiteColor];
-        return footerView;
-    }
+//    if (section == 1)
+//    {
+//        LxmQiangBaiShiFooterView * footerView =[tableView dequeueReusableHeaderFooterViewWithIdentifier:@"LxmQiangBaiShiFooterView"];
+//        if (!footerView)
+//        {
+//            footerView = [[LxmQiangBaiShiFooterView alloc] initWithReuseIdentifier:@"LxmQiangBaiShiFooterView"];
+//
+//            UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 40, ScreenW, 5)];
+//            view.backgroundColor = BGGrayColor;
+//            [footerView addSubview:view];
+//
+//        }
+//        footerView.bgImageView.backgroundColor = [UIColor whiteColor];
+//        return footerView;
+//    }
     return nil;
 }
 
@@ -199,7 +227,7 @@
 {
     if (section == 1)
     {
-        return 40+5;
+        return 5;
     }
     return 5;
 }
@@ -217,7 +245,12 @@
     if (indexPath.section == 0)
     {
         LxmSelectPeopleVC * vc = [[LxmSelectPeopleVC alloc] init];
-        vc.type = LxmSelectPeopleVC_Type_laidianjiu;
+        vc.type = LxmSelectPeopleVC_Type_qingbaishi;
+        __weak typeof(self) weakSelf = self;
+        vc.sendLianXiRenBlock = ^(NSString *str) {
+            [weakSelf.tableView reloadData];
+            lianXiRen = str;
+        };
         [self.navigationController pushViewController:vc animated:YES];
     }
     if (indexPath.section == 2)

@@ -11,7 +11,7 @@
 @interface ZKLaidianJiuCell : UICollectionViewCell
 
 /** 模型 */
-@property(nonatomic , strong)ZKLaiDianJiuModel *model;
+@property(nonatomic , strong)YJHomeModel *model;
 
 
 /** 图片 */

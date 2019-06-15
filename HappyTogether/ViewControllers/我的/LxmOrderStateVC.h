@@ -9,11 +9,11 @@
 #import "BaseTableViewController.h"
 typedef enum {
     
-    LxmOrderStateVC_Type_weiPay,
-    LxmOrderStateVC_Type_weiJiHuo,
-    LxmOrderStateVC_Type_weiUse,
-    LxmOrderStateVC_Type_peiSong,
-    LxmOrderStateVC_Type_overOrder
+    LxmOrderStateVC_Type_weiPay = 1,
+    LxmOrderStateVC_Type_weiJiHuo = 2,
+    LxmOrderStateVC_Type_weiUse = 3,
+    LxmOrderStateVC_Type_peiSong = 4,
+    LxmOrderStateVC_Type_overOrder = 5
     
 }LxmOrderStateVC_Type;
 @interface LxmOrderStateVC : BaseTableViewController

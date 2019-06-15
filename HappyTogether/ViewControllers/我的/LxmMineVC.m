@@ -200,7 +200,7 @@
             [cell addSubview:rightViewBtn];
             
             UILabel *rightLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, ScreenW * 0.5-0.25, 40)];
-            NSString * str1 = @"￥220";
+            NSString * str1 = @"￥20";
             NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
             [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, 1)];
             rightLab.textAlignment = 1;

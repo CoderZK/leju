@@ -134,7 +134,7 @@
         }
         else
         {
-            _areaView.dataArr=@[@"新北区",@"武进区",@"天宁区"];
+            _areaView.dataArr=@[@"新北区"];
             [_areaView showInView:self.view];
         }
         

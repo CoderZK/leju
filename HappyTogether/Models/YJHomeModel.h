@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic , strong)NSString *goodId;
 @property(nonatomic , strong)NSString *detailAddress;
 @property(nonatomic,assign)float price,priceTwo;
-@property(nonatomic,assign)NSInteger number;
+@property(nonatomic,assign)NSInteger number,choiceNumber;
 @property(nonatomic,assign)BOOL isSelect;
 @property(nonatomic,strong)NSString *code,*time,*dingdanNumber;
 @end

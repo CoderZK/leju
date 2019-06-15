@@ -14,27 +14,28 @@
 
 @interface ZKLaiDianJiuVC ()
 
-/** 数据源 */
-@property(nonatomic , strong)NSMutableArray *dataArray;
 
 /** 购物车按钮 */
 @property(nonatomic , strong)ZKGouWuCarBT *gouWuCarBt;
 /** 价格 */
 @property(nonatomic , strong)UILabel *totalMoneyLB;
+@property(nonatomic , assign)float totalMoney;
 /** 去结算里面 价格2 */
 //@property(nonatomic , strong)UILabel *moneyTwoLB;
-
+@property(nonatomic,strong)NSMutableArray<YJHomeModel *> *dataArray;
 
 @end
 
 @implementation ZKLaiDianJiuVC
 
--(NSMutableArray *)dataArray {
+- (NSMutableArray<YJHomeModel *> *)dataArray {
     if (_dataArray == nil) {
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
 }
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,23 +47,49 @@
     
     //假数据
     
-    for (int i = 0 ; i < 31 ; i++) {
+//    for (int i = 0 ; i < 31 ; i++) {
+//
+//        ZKLaiDianJiuModel * model =[[ZKLaiDianJiuModel alloc] init];
+//
+//        model.pice =  [NSString stringWithFormat:@"%0.2f",i*20.0 + 78];
+//
+//        [self.dataArray addObject:model];
+//
+//
+//    }
     
-        ZKLaiDianJiuModel * model =[[ZKLaiDianJiuModel alloc] init];
-        
-        model.pice =  [NSString stringWithFormat:@"%0.2f",i*20.0 + 78];
-        
-        [self.dataArray addObject:model];
-        
-        
-    }
-    
-    
+    [self getData];
     
     
     
     // Do any additional setup after loading the view.
 }
+
+- (void)getData {
+    
+    NSString * sql = [NSString stringWithFormat:@"select *from kk_hongjiu"];
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        FMResultSet * result = [db executeQuery:sql];
+        while ([result next]) {
+            YJHomeModel * model = [[YJHomeModel alloc] init];
+            model.name =  [result stringForColumn:@"name"];
+            model.img =  [result stringForColumn:@"img"];
+            model.price = [result doubleForColumn:@"price"];
+            [self.dataArray addObject:model];
+        }
+        [self.collectionView reloadData];
+        
+    }else {
+        [SVProgressHUD showErrorWithStatus:@"数据异常请稍后再试"];
+    }
+    
+    
+    
+}
+
+
 //布局collectionView
 - (void)setCollectionView {
     
@@ -126,6 +153,18 @@
 //去支付
 -(void)quzhifu {
     LxmlaiDianJiuSureOrderVC * vc= [[LxmlaiDianJiuSureOrderVC alloc] initWithTableViewStyle:UITableViewStyleGrouped];
+    NSMutableArray * arr = @[].mutableCopy;
+    for (int i = 0 ; i < self.dataArray.count; i ++ ) {
+        YJHomeModel * model =self.dataArray[i];
+        if (model.choiceNumber) {
+            
+            [arr addObject:model];
+       
+        }
+    }
+        vc.dataArray = arr;
+        vc.totalMoney = self.totalMoney;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -141,7 +180,7 @@
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    ZKLaiDianJiuModel * model =self.dataArray[indexPath.row];
+    YJHomeModel * model =self.dataArray[indexPath.row];
     
     ZKLaidianJiuCell * cell =[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
@@ -163,7 +202,7 @@
 
 - (void)addAction:(UIButton *)button {
     
-    ZKLaiDianJiuModel * model = self.dataArray[button.tag - 100];
+    YJHomeModel * model = self.dataArray[button.tag - 100];
 
     model.choiceNumber = model.choiceNumber + 1;
 
@@ -176,7 +215,7 @@
 
 - (void)subAcyion:(UIButton *)button {
     
-    ZKLaiDianJiuModel * model = self.dataArray[button.tag - 100];
+    YJHomeModel * model = self.dataArray[button.tag - 100];
     
     model.choiceNumber = model.choiceNumber - 1;
     
@@ -195,17 +234,17 @@
     CGFloat totalNumber = 0;
     CGFloat totlalMoney = 0;
     for (int i = 0 ; i < self.dataArray.count; i ++ ) {
-        ZKLaiDianJiuModel * model =self.dataArray[i];
+        YJHomeModel * model =self.dataArray[i];
         if (model.choiceNumber) {
             //也可以在此处获取商品的信息都在model 内
             
             
             totalNumber = totalNumber + model.choiceNumber;
-            totlalMoney = totlalMoney + [model.pice floatValue] * model.choiceNumber;
+            totlalMoney = totlalMoney + model.price * model.choiceNumber;
         }
         [self.gouWuCarBt setTitle: [NSString stringWithFormat:@"%1.0f",totalNumber] forState:UIControlStateNormal];
         self.totalMoneyLB.text =  [NSString stringWithFormat:@"￥ %1.0f",totlalMoney];
-        
+        self.totalMoney = totlalMoney;
 //        if (totlalMoney >= 1680) {
 //            
 //            self.moneyTwoLB.text =  [NSString stringWithFormat:@"+￥%@=￥%1.0d",@"0",1680];

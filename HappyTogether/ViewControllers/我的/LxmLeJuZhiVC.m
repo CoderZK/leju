@@ -66,7 +66,7 @@
     else
     {
         self.navigationItem.title = @"乐聚通";
-        NSString * str1 = @"￥220.00";
+        NSString * str1 = @"￥20.00";
         NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:str1];
         [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, 1)];
         lab.textAlignment = 1;

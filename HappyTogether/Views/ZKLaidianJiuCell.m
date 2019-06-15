@@ -54,15 +54,15 @@
     return self;
 }
 
-- (void)setModel:(ZKLaiDianJiuModel *)model {
+- (void)setModel:(YJHomeModel *)model {
     _model = model;
     
     //图片赋值
     
     //价格赋值
-    
-    self.piceLB.text =  [NSString stringWithFormat:@"￥%@",model.pice];
-    
+    self.headImgV.image = [UIImage imageNamed: [NSString stringWithFormat:@"%@",model.img]];
+    self.piceLB.text =  [NSString stringWithFormat:@"￥%0.2f",model.price];
+    self.nameLB.text = model.name;
     //加减
     if (model.choiceNumber) {
         self.subBT.hidden = NO;

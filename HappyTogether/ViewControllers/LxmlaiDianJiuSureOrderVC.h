@@ -10,4 +10,8 @@
 
 @interface LxmlaiDianJiuSureOrderVC : BaseTableViewController
 
+@property(nonatomic , strong)NSMutableArray<YJHomeModel *> *dataArray;
+/**  */
+@property(nonatomic , assign)float totalMoney;
+
 @end
