@@ -12,17 +12,51 @@
 #import "LxmOrderConentVC.h"
 
 @interface LxmOrderVC ()
-
+@property(nonatomic,strong)NSMutableArray<YJHomeModel *> *dataArray;
 @end
 
 @implementation LxmOrderVC
-
+- (NSMutableArray<YJHomeModel *> *)dataArray {
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self initCollectionView];
+    
+     [self getData];
    
 }
+
+- (void)getData{
+
+    NSString * sql = [NSString stringWithFormat:@"select *from kk_taocan where jiuDianId = '%ld'",(long)self.model.ID];
+    FMDatabase * db = [FMDBSingle shareFMDB].fd;
+    BOOL isOpen = [db open];
+    if (isOpen) {
+        FMResultSet * result = [db executeQuery:sql];
+        while ([result next]) {
+            YJHomeModel * model = [[YJHomeModel alloc] init];
+             model.ID = [result intForColumn:@"ID"];
+            model.name = [result stringForColumn:@"name"];
+            model.des = [result stringForColumn:@"des"];
+            model.price = [result doubleForColumn:@"price"];
+            model.img = [result stringForColumn:@"img"];
+            [self.dataArray addObject:model];
+        }
+    [self.collectionView reloadData];
+    
+}else {
+    [SVProgressHUD showErrorWithStatus:@"数据异常请稍后再试"];
+}
+
+
+
+}
+
 -(void)initCollectionView
 {
     self.flowLayout.minimumInteritemSpacing=5;
@@ -41,7 +75,7 @@
     {
         LxmOrderHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"LxmOrderHeaderView" forIndexPath:indexPath];
         headerView.bgImageView.backgroundColor = BGGrayColor;
-        headerView.titleStr = @"锦江国际大酒店";
+        headerView.titleStr = self.model.name;
         return headerView;
     }
     return nil;
@@ -60,17 +94,24 @@
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return self.dataArray.count;
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LxmOrderCell * item = [collectionView dequeueReusableCellWithReuseIdentifier:@"LxmOrderCell" forIndexPath:indexPath];
     item.backgroundColor = [UIColor whiteColor];
+    YJHomeModel * model = self.dataArray[indexPath.row];
+    
+    item.imgV.image =[UIImage imageNamed: [NSString stringWithFormat:@"%@",model.img]];
+    item.titleLab.text = model.name;
+    item.priceLab.text =  [NSString stringWithFormat:@"￥%0.2f",model.price];
+    item.detailLab.text = model.des;
     return item;
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LxmOrderConentVC * vc = [[LxmOrderConentVC alloc] init];
+    vc.model = self.dataArray[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

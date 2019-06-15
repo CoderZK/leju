@@ -9,5 +9,6 @@
 #import "BaseCollectionViewController.h"
 
 @interface LxmOrderVC : BaseCollectionViewController
-
+/**  */
+@property(nonatomic , strong)YJHomeModel *model;
 @end

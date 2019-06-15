@@ -88,7 +88,7 @@
     
     CGSize Size = [@"获取验证码" getSizeWithMaxSize:CGSizeMake(99, 99) withFontSize:15];
     if (!_isLogin) {//加载注册
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 208)];
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenW, 240)];
         headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         //输出用户
         UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 60, ScreenW, 44)];
@@ -143,7 +143,7 @@
         _textField3.secureTextEntry = YES;
         
         UIButton *btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn3.frame = CGRectMake(0, 164, ScreenW, 44);
+        btn3.frame = CGRectMake(0, 200, ScreenW, 44);
         [btn3 setTitle:@"登录注册" forState:UIControlStateNormal];
         [btn3 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [btn3 setBackgroundImage:[UIImage imageNamed:@"btn_xiayibu"] forState:UIControlStateNormal];

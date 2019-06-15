@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LxmOrderCell : UICollectionViewCell
-
+/** <#注释#> */
+@property(nonatomic , strong)UILabel *titleLab,*priceLab,*detailLab;
+/**  */
+@property(nonatomic , strong)UIImageView *imgV;
 @end

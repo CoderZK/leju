@@ -115,6 +115,20 @@
 
 -(void)bottomBtn
 {
+    if(_textView.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"请输入意见反馈"];
+        return;
+    }
+    
+    [SVProgressHUD show];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD showSuccessWithStatus:@"感谢您的宝贵意见,我们将不断的改进,为您提供更好的服务"];
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+    
     //提交
 }
 

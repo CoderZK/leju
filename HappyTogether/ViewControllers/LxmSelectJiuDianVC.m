@@ -94,6 +94,7 @@
         FMResultSet * result = [db executeQuery:sql];
         while ([result next]) {
             YJHomeModel * model = [[YJHomeModel alloc] init];
+            model.ID = [result intForColumn:@"ID"];
             model.title = [result stringForColumn:@"name"];
             model.content = [result stringForColumn:@"content"];
             model.name =  [result stringForColumn:@"name"];
@@ -187,6 +188,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     LxmOrderVC * vc = [[LxmOrderVC alloc] init];
+    vc.model = self.dataArray[indexPath.section];
     vc.navigationItem.title = @"菜单";
     [self.navigationController pushViewController:vc animated:YES];
 }

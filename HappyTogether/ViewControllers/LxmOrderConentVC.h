@@ -9,5 +9,6 @@
 #import "BaseTableViewController.h"
 
 @interface LxmOrderConentVC : BaseTableViewController
-
+/**  */
+@property(nonatomic , strong)YJHomeModel *model;
 @end

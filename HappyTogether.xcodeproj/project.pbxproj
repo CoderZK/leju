@@ -72,13 +72,13 @@
 		40D9457D1DED5EE800317F68 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D9457C1DED5EE800317F68 /* NSString+Size.m */; };
 		40E4E4271DFE28140072C168 /* LxmMyOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E4E4261DFE28140072C168 /* LxmMyOrderVC.m */; };
 		40E4E42A1DFE28970072C168 /* LxmOrderStateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E4E4291DFE28970072C168 /* LxmOrderStateVC.m */; };
-		5832EFCB22B0DE7300BA019E /* GGG.db in Resources */ = {isa = PBXBuildFile; fileRef = 5832EFCA22B0DE7200BA019E /* GGG.db */; };
 		5832EFCF22B0DFF900BA019E /* LxmXieYiVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5832EFCC22B0DFF800BA019E /* LxmXieYiVC.m */; };
 		5832EFD022B0DFF900BA019E /* LxmXieYiVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5832EFCD22B0DFF900BA019E /* LxmXieYiVC.xib */; };
 		5832EFD322B0E42800BA019E /* Clear.m in Sources */ = {isa = PBXBuildFile; fileRef = 5832EFD222B0E42800BA019E /* Clear.m */; };
 		58AD90A222AF442F005E23F5 /* FMDBSingle.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AD909F22AF442E005E23F5 /* FMDBSingle.m */; };
 		58AD90A322AF442F005E23F5 /* zkSignleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 58AD90A122AF442E005E23F5 /* zkSignleTool.m */; };
 		66C2A08D22B2811D00D572E4 /* YJHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C2A08C22B2811D00D572E4 /* YJHomeModel.m */; };
+		66C2A08F22B4D2C100D572E4 /* GXY.db in Resources */ = {isa = PBXBuildFile; fileRef = 66C2A08E22B4D2C100D572E4 /* GXY.db */; };
 		BA46980B1DFE40D4008CE498 /* LYOrderHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA46980A1DFE40D4008CE498 /* LYOrderHeaderView.m */; };
 		BA46980E1DFE48CC008CE498 /* LYOrderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA46980D1DFE48CC008CE498 /* LYOrderFooterView.m */; };
 		BA4698111DFE6A43008CE498 /* LYTuiDanTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = BA4698101DFE6A43008CE498 /* LYTuiDanTVC.m */; };
@@ -221,7 +221,6 @@
 		40E4E4261DFE28140072C168 /* LxmMyOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LxmMyOrderVC.m; sourceTree = "<group>"; };
 		40E4E4281DFE28970072C168 /* LxmOrderStateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LxmOrderStateVC.h; sourceTree = "<group>"; };
 		40E4E4291DFE28970072C168 /* LxmOrderStateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LxmOrderStateVC.m; sourceTree = "<group>"; };
-		5832EFCA22B0DE7200BA019E /* GGG.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = GGG.db; sourceTree = "<group>"; };
 		5832EFCC22B0DFF800BA019E /* LxmXieYiVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LxmXieYiVC.m; sourceTree = "<group>"; };
 		5832EFCD22B0DFF900BA019E /* LxmXieYiVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LxmXieYiVC.xib; sourceTree = "<group>"; };
 		5832EFCE22B0DFF900BA019E /* LxmXieYiVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LxmXieYiVC.h; sourceTree = "<group>"; };
@@ -234,6 +233,7 @@
 		640ABA9F63100B9B3E854491 /* Pods-HappyTogether.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HappyTogether.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HappyTogether/Pods-HappyTogether.debug.xcconfig"; sourceTree = "<group>"; };
 		66C2A08B22B2811C00D572E4 /* YJHomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YJHomeModel.h; sourceTree = "<group>"; };
 		66C2A08C22B2811D00D572E4 /* YJHomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YJHomeModel.m; sourceTree = "<group>"; };
+		66C2A08E22B4D2C100D572E4 /* GXY.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = GXY.db; sourceTree = "<group>"; };
 		BA4698091DFE40D4008CE498 /* LYOrderHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYOrderHeaderView.h; sourceTree = "<group>"; };
 		BA46980A1DFE40D4008CE498 /* LYOrderHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYOrderHeaderView.m; sourceTree = "<group>"; };
 		BA46980C1DFE48CC008CE498 /* LYOrderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYOrderFooterView.h; sourceTree = "<group>"; };
@@ -518,7 +518,7 @@
 		5832EFC922B0DE7200BA019E /* FYMySqli */ = {
 			isa = PBXGroup;
 			children = (
-				5832EFCA22B0DE7200BA019E /* GGG.db */,
+				66C2A08E22B4D2C100D572E4 /* GXY.db */,
 			);
 			path = FYMySqli;
 			sourceTree = "<group>";
@@ -604,7 +604,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5832EFCB22B0DE7300BA019E /* GGG.db in Resources */,
+				66C2A08F22B4D2C100D572E4 /* GXY.db in Resources */,
 				5832EFD022B0DFF900BA019E /* LxmXieYiVC.xib in Resources */,
 				407F0A4E1DED033D001949AA /* LaunchScreen.storyboard in Resources */,
 				407F0A4B1DED033D001949AA /* Assets.xcassets in Resources */,

@@ -10,4 +10,5 @@
 
 @interface LxmSelectJiuDianVC : BaseViewController
 @property(nonatomic,strong)NSString * rightBtnStr;
+
 @end

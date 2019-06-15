@@ -37,7 +37,7 @@ static NSString *cellFooterID = @"cellfooterID";
     [self.tableView registerClass:[LxmSureOrderCaiCell class] forCellReuseIdentifier:cellID];
     [self.tableView registerClass:[LYOrderHeaderView class] forHeaderFooterViewReuseIdentifier:cellHeaderID];
     [self.tableView registerClass:[LYOrderFooterView class] forHeaderFooterViewReuseIdentifier:cellFooterID];
-   
+    [self getData];
    
 }
 

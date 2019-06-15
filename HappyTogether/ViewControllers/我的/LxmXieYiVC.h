@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LxmXieYiVC : BaseTableViewController
+@interface LxmXieYiVC : BaseViewController
 
 @end
 
