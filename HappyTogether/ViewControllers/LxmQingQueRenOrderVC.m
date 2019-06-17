@@ -14,7 +14,7 @@
 #import "LxmHomeHeaderView.h"
 #import "LxmSelectPeopleVC.h"
 #import "LXmQiangBaiShiOrderDetailVC.h"
-
+#import "RegisterViewController.h"
 
 @interface LxmQingQueRenOrderVC ()
 {
@@ -346,6 +346,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0)
     {
+        if (![zkSignleTool shareTool].isLogin) {
+            RegisterViewController * vc =[[RegisterViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self presentViewController:vc  animated:YES completion:nil];
+            return;
+        }
         LxmSelectPeopleVC * vc = [[LxmSelectPeopleVC alloc] init];
         vc.type = LxmSelectPeopleVC_Type_qingbaishi;
         __weak typeof(self) weakSelf = self;

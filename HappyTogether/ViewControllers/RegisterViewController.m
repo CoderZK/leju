@@ -45,6 +45,13 @@
     [self.view addSubview:self.TV];
     [self configRight];
     
+    
+    UIButton *cha = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cha setImage:[UIImage imageNamed:@"cha"] forState:UIControlStateNormal];
+    cha.frame = CGRectMake(10, [UIApplication sharedApplication].statusBarFrame.size.height + 2, 40, 40);
+    [cha addTarget:self action:@selector(cha) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cha];
+    
     //添加左键点击后退
     UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
     [left setImage:[UIImage imageNamed:@"ico_fanhui"] forState:UIControlStateNormal];
@@ -60,6 +67,11 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     // Do any additional setup after loading the view.
 }
+
+- (void)cha {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 //取消登录注册
 - (void)backTo{
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];

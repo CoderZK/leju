@@ -39,8 +39,7 @@
 
 - (void)outAction:(UIButton *)button {
     [zkSignleTool shareTool].isLogin = NO;
-     RegisterViewController* vc =[[RegisterViewController alloc] init];
-    [self presentViewController:vc  animated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

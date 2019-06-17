@@ -66,15 +66,18 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (![zkSignleTool shareTool].isLogin) {
-        RegisterViewController * vc =[[RegisterViewController alloc] init];
-        vc.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:vc  animated:YES completion:nil];
-    }
+  
 }
 - (void)jumpToUserInfo{
     
     //判断是否登录，如果没有登录跳转登录页面
+    
+    if (![zkSignleTool shareTool].isLogin) {
+        RegisterViewController * vc =[[RegisterViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self presentViewController:vc  animated:YES completion:nil];
+        return;
+    }
     
     LxmMineVC * vc = [[LxmMineVC alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
